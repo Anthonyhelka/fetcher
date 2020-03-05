@@ -23,7 +23,8 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
+      <div className='App'>
+        <p>This is a test view!</p>
         {this.state.products.map((product) => {
           return(
             <p key={product.label}>{product.label}, ${product.price}</p>
