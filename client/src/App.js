@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import './App.css';
 
 import BreedSelect from './BreedSelect.js';
-import loading_gears from './images/loading_gears.svg';
 
 class App extends Component {
   state = {
