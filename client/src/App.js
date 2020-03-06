@@ -48,7 +48,7 @@ class App extends Component {
         <h1 id='title'>Fetcher</h1>
         <button id='fetch-button' onClick={this.getRandomDog}>Fetch!</button>
         <BreedSelect breeds={this.state.breeds} handleBreedChange = {(event) => this.handleBreedChange(event)} />
-        {this.state.loading ? <img id='loading-gears' src={loading_gears} alt='Loading Gears' /> : <img id='dog-image' src={this.state.randomDog} alt='Random Dog' />}
+        {this.state.loading ? <span>Loading...</span> : <img id='dog-image' src={this.state.randomDog} alt='Random Dog' />}
       </div>
     );
   }
