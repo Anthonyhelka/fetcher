@@ -1,35 +1,51 @@
 import React, { Component } from 'react';
 import './App.css';
 
+import BreedSelect from './BreedSelect.js';
+
 class App extends Component {
   state = {
-    products: []
+    breeds: [],
+    selectedBreed: 'All Breeds',
+    randomDog: ''
   };
 
   componentDidMount() {
-    this.callBackendAPI()
-      .then(res => this.setState({ products: res.products }))
-      .catch(err => console.log(err));
+    this.getBreeds();
+    this.getRandomDog();
   }
 
-  callBackendAPI = async () => {
-    const response = await fetch('/api/products');
-    const body = await response.json();
-    if (response.status !== 200) {
-      throw Error(body.message)
-    }
-    return body;
+  getBreeds = () => {
+    fetch('/api/breeds')
+      .then((response) => {
+        return response.json();
+       })
+       .then((body) => {
+         this.setState({ breeds: body });
+       })
   };
+
+  getRandomDog = () => {
+    fetch(`/api/randomDog?breed=${this.state.selectedBreed}`)
+    .then((response) => {
+      return response.json();
+     })
+     .then((body) => {
+       this.setState({ randomDog: body.message });
+     })
+  };
+
+  handleBreedChange = (event) => {
+    this.setState({ selectedBreed: event.target.value });
+  }
 
   render() {
     return (
-      <div className='App'>
-        <p>This is a test view!</p>
-        {this.state.products.map((product) => {
-          return(
-            <p key={product.label}>{product.label}, ${product.price}</p>
-          );
-        })}
+      <div id='App'>
+        <h1 id='title'>Fetcher</h1>
+        <button id='fetch-button' onClick={this.getRandomDog}>Fetch!</button>
+        <BreedSelect breeds={this.state.breeds} handleBreedChange = {(event) => this.handleBreedChange(event)} />
+        <img id='dog-image' src={this.state.randomDog} alt='Random Dog' />
       </div>
     );
   }

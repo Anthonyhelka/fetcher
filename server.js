@@ -1,26 +1,29 @@
 const express = require('express');
 const path = require('path');
+const breeds = require('./utils/breeds.js');
+const randomDog = require('./utils/randomDog.js');
 
 const app = express();
 
 app.use(express.static(path.join(__dirname, 'client/build')));
 
-app.get('/api/products', (req, res) => {
-  res.send({
-    products: [
-      {
-        label: 'Red Book',
-        price: 5
-      },
-      {
-        label: 'Backpack',
-        price: 35
-      },
-      {
-        label: 'Pens',
-        price: 3
-      }
-    ]
+app.get('/api/breeds', (req, res) => {
+  breeds((error, data) => {
+    if (error) {
+      return res.send(error);
+    } else {
+      return res.send(data);
+    }
+  });
+});
+
+app.get('/api/randomDog', (req, res) => {
+  randomDog(req.query.breed, (error, data) => {
+    if (error) {
+      return res.send(error);
+    } else {
+      return res.send(data);
+    }
   });
 });
 
